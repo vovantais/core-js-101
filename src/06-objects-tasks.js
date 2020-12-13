@@ -20,8 +20,14 @@
  *    console.log(r.height);      // => 20
  *    console.log(r.getArea());   // => 200
  */
-function Rectangle(/* width, height */) {
-  throw new Error('Not implemented');
+function Rectangle(width, height) {
+	return {
+		width,
+		height,
+		getArea() {
+			return this.width * this.height;
+		}
+	}
 }
 
 
@@ -35,8 +41,8 @@ function Rectangle(/* width, height */) {
  *    [1,2,3]   =>  '[1,2,3]'
  *    { width: 10, height : 20 } => '{"height":10,"width":20}'
  */
-function getJSON(/* obj */) {
-  throw new Error('Not implemented');
+function getJSON(obj) {
+	return JSON.stringify(obj);
 }
 
 
@@ -51,8 +57,8 @@ function getJSON(/* obj */) {
  *    const r = fromJSON(Circle.prototype, '{"radius":10}');
  *
  */
-function fromJSON(/* proto, json */) {
-  throw new Error('Not implemented');
+function fromJSON(proto, json) {
+	return Object.setPrototypeOf(JSON.parse(json), proto);
 }
 
 
@@ -110,40 +116,146 @@ function fromJSON(/* proto, json */) {
  *  For more examples see unit tests.
  */
 
+class Impostor {
+	constructor() {
+		this.selector = '';
+		this.exception = 'Element, id and pseudo-element should not occur more then one time inside the selector';
+		this.isAJoke = 'Selector parts should be arranged in the following order: element, id, class, attribute, pseudo-class, pseudo-element';
+		this.rightSelectorOrder = ['element', 'id', 'class', 'attribute', 'pseudo-class', 'pseudo-element']; // consts will be better but...
+		this.currentOrder = [];
+		this.elemCount = 0;
+		this.idCount = 0;
+		this.psElCount = 0;
+		this.magic = 0;
+	}
+
+	isOrderRight() {
+		if (!this.magic) {
+			this.magic = 1;
+			const firstElemIndex = this.rightSelectorOrder.indexOf(this.currentOrder[0]);
+			this.rightSelectorOrder = this.rightSelectorOrder.slice(firstElemIndex);
+		}
+		return this
+			.currentOrder
+			.every((value, index) => index <= this.rightSelectorOrder.indexOf(value));
+	}
+
+	element(value) {
+		this.elemCount += 1;
+		if (this.elemCount > 1) {
+			throw this.exception;
+		}
+		this.currentOrder.push('element');
+		if (!this.isOrderRight()) {
+			throw Error(this.isAJoke);
+		}
+		this.selector += value;
+		return this;
+	}
+
+	id(value) {
+		this.idCount += 1;
+		if (this.idCount > 1) {
+			throw this.exception;
+		}
+		this.currentOrder.push('id');
+		if (!this.isOrderRight()) {
+			throw Error(this.isAJoke);
+		}
+		this.selector += `#${value}`;
+		return this;
+	}
+
+	class(value) {
+		if (this.currentOrder[this.currentOrder.length - 1] !== 'class') {
+			this.currentOrder.push('class');
+		}
+		if (!this.isOrderRight()) {
+			throw Error(this.isAJoke);
+		}
+		this.selector += `.${value}`;
+		return this;
+	}
+
+	attr(value) {
+		if (this.currentOrder[this.currentOrder.length - 1] !== 'attribute') {
+			this.currentOrder.push('attribute');
+		}
+		if (!this.isOrderRight()) {
+			throw Error(this.isAJoke);
+		}
+		this.selector += `[${value}]`;
+		return this;
+	}
+
+	pseudoClass(value) {
+		if (this.currentOrder[this.currentOrder.length - 1] !== 'pseudo-class') {
+			this.currentOrder.push('pseudo-class');
+		}
+		if (!this.isOrderRight()) {
+			throw Error(this.isAJoke);
+		}
+		this.selector += `:${value}`;
+		return this;
+	}
+
+	pseudoElement(value) {
+		this.psElCount += 1;
+		if (this.psElCount > 1) {
+			throw this.exception;
+		}
+		this.currentOrder.push('pseudo-element');
+		if (!this.isOrderRight()) {
+			throw Error(this.isAJoke);
+		}
+		this.selector += `::${value}`;
+		return this;
+	}
+
+	combine(selector1, combinator, selector2) {
+		this.selector = `${selector1.stringify()} ${combinator} ${selector2.stringify()}`;
+		return this;
+	}
+
+	stringify() {
+		return this.selector;
+	}
+}
+
 const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
-  },
+	element(value) {
+		return new Impostor().element(value);
+	},
 
-  id(/* value */) {
-    throw new Error('Not implemented');
-  },
+	id(value) {
+		return new Impostor().id(value);
+	},
 
-  class(/* value */) {
-    throw new Error('Not implemented');
-  },
+	class(value) {
+		return new Impostor().class(value);
+	},
 
-  attr(/* value */) {
-    throw new Error('Not implemented');
-  },
+	attr(value) {
+		return new Impostor().attr(value);
+	},
 
-  pseudoClass(/* value */) {
-    throw new Error('Not implemented');
-  },
+	pseudoClass(value) {
+		return new Impostor().pseudoClass(value);
+	},
 
-  pseudoElement(/* value */) {
-    throw new Error('Not implemented');
-  },
+	pseudoElement(value) {
+		return new Impostor().pseudoElement(value);
+	},
 
-  combine(/* selector1, combinator, selector2 */) {
-    throw new Error('Not implemented');
-  },
+	combine(selector1, combinator, selector2) {
+		return new Impostor().combine(selector1, combinator, selector2);
+	},
 };
 
 
 module.exports = {
-  Rectangle,
-  getJSON,
-  fromJSON,
-  cssSelectorBuilder,
+	Rectangle,
+	getJSON,
+	fromJSON,
+	cssSelectorBuilder,
 };
