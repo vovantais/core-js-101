@@ -32,7 +32,7 @@
  * @return {RegExp}
  */
 function getRegexForGuid() {
-	return /{[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}}/;
+  return /{[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}}/;
 }
 
 
@@ -54,7 +54,7 @@ function getRegexForGuid() {
  *
  */
 function getRegexForPitSpot() {
-	return /^(?=pi|s|re)/;
+  return /^(?=pi|s|re)/;
 }
 
 
@@ -79,12 +79,12 @@ function getRegexForPitSpot() {
  *   'Pa55'.match(validator) => false
  */
 function getPasswordValidator(minLength) {
-	return new RegExp(`(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?!.*\\s)[a-zA-Z\\d]{${minLength},}`);
+  return new RegExp(`(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?!.*\\s)[a-zA-Z\\d]{${minLength},}`);
 }
 
 
 module.exports = {
-	getRegexForGuid,
-	getRegexForPitSpot,
-	getPasswordValidator,
+  getRegexForGuid,
+  getRegexForPitSpot,
+  getPasswordValidator,
 };

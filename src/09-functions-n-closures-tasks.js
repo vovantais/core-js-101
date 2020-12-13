@@ -24,7 +24,7 @@
  *
  */
 function getComposition(f, g) {
-	return (x) => f(g(x));
+  return (x) => f(g(x));
 }
 
 
@@ -45,7 +45,7 @@ function getComposition(f, g) {
  *
  */
 function getPowerFunction(exponent) {
-	return (number) => number ** exponent;
+  return (number) => number ** exponent;
 }
 
 
@@ -63,16 +63,16 @@ function getPowerFunction(exponent) {
  *   getPolynom()      => null
  */
 function getPolynom(...args) {
-	function doMath(x) {
-		let res = null;
-		if (args.length !== 0) {
-			for (let i = 0; i < args.length; i += 1) {
-				res += args[i] * x ** (args.length - i - 1);
-			}
-		}
-		return res;
-	}
-	return doMath;
+  function doMath(x) {
+    let res = null;
+    if (args.length !== 0) {
+      for (let i = 0; i < args.length; i += 1) {
+        res += args[i] * x ** (args.length - i - 1);
+      }
+    }
+    return res;
+  }
+  return doMath;
 }
 
 
@@ -91,13 +91,13 @@ function getPolynom(...args) {
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
 function memoize(func) {
-	let res = null;
-	return function airbnb() {
-		if (!res) {
-			res = func();
-		}
-		return res;
-	};
+  let res = null;
+  return function airbnb() {
+    if (!res) {
+      res = func();
+    }
+    return res;
+  };
 }
 
 
@@ -117,21 +117,21 @@ function memoize(func) {
  * retryer() => 2
  */
 function retry(func, attempts) {
-	const maxAttempts = attempts;
-	let currentAttempt = 0;
-	function airbnb() {
-		let res = null;
-		try {
-			currentAttempt += 1;
-			res = func();
-		} catch (error) {
-			if (currentAttempt < maxAttempts) {
-				res = airbnb();
-			}
-		}
-		return res;
-	}
-	return airbnb;
+  const maxAttempts = attempts;
+  let currentAttempt = 0;
+  function airbnb() {
+    let res = null;
+    try {
+      currentAttempt += 1;
+      res = func();
+    } catch (error) {
+      if (currentAttempt < maxAttempts) {
+        res = airbnb();
+      }
+    }
+    return res;
+  }
+  return airbnb;
 }
 
 
@@ -159,12 +159,12 @@ function retry(func, attempts) {
  *
  */
 function logger(func, logFunc) {
-	return function airbnb(...arg) {
-		logFunc(`${func.name}(${JSON.stringify(arg).slice(1, JSON.stringify(arg).length - 1)}) starts`);
-		const res = func(...arg);
-		logFunc(`${func.name}(${JSON.stringify(arg).slice(1, JSON.stringify(arg).length - 1)}) ends`);
-		return res;
-	};
+  return function airbnb(...arg) {
+    logFunc(`${func.name}(${JSON.stringify(arg).slice(1, JSON.stringify(arg).length - 1)}) starts`);
+    const res = func(...arg);
+    logFunc(`${func.name}(${JSON.stringify(arg).slice(1, JSON.stringify(arg).length - 1)}) ends`);
+    return res;
+  };
 }
 
 
@@ -182,7 +182,7 @@ function logger(func, logFunc) {
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
 function partialUsingArguments(fn, ...args) {
-	return fn.bind(this, ...args);
+  return fn.bind(this, ...args);
 }
 
 
@@ -204,22 +204,22 @@ function partialUsingArguments(fn, ...args) {
  *   getId10() => 11
  */
 function getIdGeneratorFunction(startFrom) {
-	let id = startFrom;
-	return function loveBnb() {
-		const loveAirBnbId = id;
-		id += 1;
-		return loveAirBnbId;
-	};
+  let id = startFrom;
+  return function loveBnb() {
+    const loveAirBnbId = id;
+    id += 1;
+    return loveAirBnbId;
+  };
 }
 
 
 module.exports = {
-	getComposition,
-	getPowerFunction,
-	getPolynom,
-	memoize,
-	retry,
-	logger,
-	partialUsingArguments,
-	getIdGeneratorFunction,
+  getComposition,
+  getPowerFunction,
+  getPolynom,
+  memoize,
+  retry,
+  logger,
+  partialUsingArguments,
+  getIdGeneratorFunction,
 };

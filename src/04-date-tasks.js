@@ -20,7 +20,7 @@
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
 function parseDataFromRfc2822(value) {
-	return new Date(value);
+  return new Date(value);
 }
 
 /**
@@ -35,7 +35,7 @@ function parseDataFromRfc2822(value) {
  *    '2016-01-19T08:07:37Z' => Date()
  */
 function parseDataFromIso8601(value) {
-	return new Date(value);
+  return new Date(value);
 }
 
 
@@ -54,14 +54,13 @@ function parseDataFromIso8601(value) {
  *    Date(2015,1,1)    => false
  */
 function isLeapYear(date) {
-	let res = date.getFullYear();
-	if (res % 4 !== 0) {
-		return false;
-	} else if (res % 100 === 0 && res % 400 !== 0) {
-		return false;
-	} else {
-		return true;
-	}
+  const res = date.getFullYear();
+  if (res % 4 !== 0) {
+    return false;
+  } if (res % 100 === 0 && res % 400 !== 0) {
+    return false;
+  }
+  return true;
 }
 
 
@@ -81,7 +80,7 @@ function isLeapYear(date) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
 function timeSpanToString(startDate, endDate) {
-	return new Date(endDate - startDate).toISOString().match(/T(.+)Z/)[1];
+  return new Date(endDate - startDate).toISOString().match(/T(.+)Z/)[1];
 }
 
 
@@ -102,25 +101,25 @@ function timeSpanToString(startDate, endDate) {
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
 function angleBetweenClockHands(date) {
-	const hours = new Date(date).getUTCHours() % 12;
-	const minutes = new Date(date).getUTCMinutes();
-	const hourHandAngle = 0.5 * (60 * hours + minutes);
-	const minuteHandAngle = 6 * minutes;
-	const betweenHandsAngle = hourHandAngle - minuteHandAngle;
-	return (
-		Math.abs(
-			(betweenHandsAngle
+  const hours = new Date(date).getUTCHours() % 12;
+  const minutes = new Date(date).getUTCMinutes();
+  const hourHandAngle = 0.5 * (60 * hours + minutes);
+  const minuteHandAngle = 6 * minutes;
+  const betweenHandsAngle = hourHandAngle - minuteHandAngle;
+  return (
+    Math.abs(
+      (betweenHandsAngle
 				> 180
-				? (360 - betweenHandsAngle)
-				: betweenHandsAngle) * Math.PI,
-		) / 180);;
+        ? (360 - betweenHandsAngle)
+        : betweenHandsAngle) * Math.PI,
+    ) / 180);
 }
 
 
 module.exports = {
-	parseDataFromRfc2822,
-	parseDataFromIso8601,
-	isLeapYear,
-	timeSpanToString,
-	angleBetweenClockHands,
+  parseDataFromRfc2822,
+  parseDataFromIso8601,
+  isLeapYear,
+  timeSpanToString,
+  angleBetweenClockHands,
 };
