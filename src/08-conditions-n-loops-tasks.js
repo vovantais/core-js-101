@@ -75,8 +75,8 @@ function getFactorial(n) {
  */
 function getSumBetweenNumbers(n1, n2) {
   let res = 0;
-  for (n1; n1 <= n2; n1++) {
-    res += n1;
+  for (let i = n1; i <= n2; i += 1) {
+    res += i;
   }
   return res;
 }
@@ -250,8 +250,7 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
  * 'noon' => 'noon'
  */
 function reverseString(str) {
-  str = str.split('').reverse().join('');
-  return str;
+  return str.split('').reverse().join('');
 }
 
 
@@ -268,8 +267,7 @@ function reverseString(str) {
  *   34143 => 34143
  */
 function reverseInteger(num) {
-  num = num.toString().split('').reverse().join('');
-  return +num;
+  return +(num.toString().split('').reverse().join(''));
 }
 
 

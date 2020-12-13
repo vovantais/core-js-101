@@ -96,8 +96,7 @@ function getFirstChar(value) {
  *   '\tHello, World! ' => 'Hello, World!'
  */
 function removeLeadingAndTrailingWhitespaces(value) {
-  value = value.replace(/['/',t]gi/, '');
-  return value.trim();
+  return value.replace(/['/',t]gi/, '').trim();
 }
 
 /**
@@ -113,7 +112,7 @@ function removeLeadingAndTrailingWhitespaces(value) {
  */
 function repeatString(value, count) {
   let result = '';
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < count; i += 1) {
     result += value;
   }
   return result;
@@ -230,7 +229,18 @@ function getRectangleString(width, height) {
  *
  */
 function encodeToRot13(str) {
-  return str.replace(/[a-zA-Z]/g, (str1) => String.fromCharCode((str1 <= 'Z' ? 90 : 122) >= (str1 = str1.charCodeAt(0) + 13) ? str1 : str1 - 26));
+  return str.replace(/[a-zA-Z]/g, (char) => {
+    const isUpperCase = char === char.toUpperCase();
+    const charCode = char.toUpperCase().charCodeAt(0);
+    const firstCharCode = 65;
+    const lastCharCode = 90;
+    const ROTShift = 13;
+    const shiftedCode = charCode + ROTShift;
+    const newCharCode = shiftedCode <= lastCharCode
+      ? shiftedCode : firstCharCode + (shiftedCode % lastCharCode) - 1;
+    const newChar = String.fromCharCode(newCharCode);
+    return isUpperCase ? newChar : newChar.toLowerCase();
+  });
 }
 
 /**

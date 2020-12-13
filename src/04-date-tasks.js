@@ -106,13 +106,8 @@ function angleBetweenClockHands(date) {
   const hourHandAngle = 0.5 * (60 * hours + minutes);
   const minuteHandAngle = 6 * minutes;
   const betweenHandsAngle = hourHandAngle - minuteHandAngle;
-  return (
-    Math.abs(
-      (betweenHandsAngle
-				> 180
-        ? (360 - betweenHandsAngle)
-        : betweenHandsAngle) * Math.PI,
-    ) / 180);
+  return (Math.abs((betweenHandsAngle > 180 ? (360 - betweenHandsAngle)
+    : betweenHandsAngle) * Math.PI) / 180);
 }
 
 
